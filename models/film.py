@@ -1,4 +1,3 @@
-import psycopg2
 import sys
 
 sys.path.append('../db')
@@ -6,6 +5,7 @@ from sqlrunner import *
 
 class Film:
     def __init__(self, title, price):
+        self.id = 0
         self.title = title
         self.price = price
 
