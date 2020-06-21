@@ -8,10 +8,10 @@ class DBSetup:
         connection = psycopg2.connect(dbname="cinema_db", user="postgres", password="")
         cursor = connection.cursor()
 
+        cursor.execute("DROP TABLE IF EXISTS tickets")
+        cursor.execute("DROP TABLE IF EXISTS screenings")
         cursor.execute("DROP TABLE IF EXISTS customers")
         cursor.execute("DROP TABLE IF EXISTS films")
-        cursor.execute("DROP TABLE IF EXISTS screenings")
-        cursor.execute("DROP TABLE IF EXISTS tickets")
 
         cursor.execute("""
           CREATE TABLE customers (
