@@ -37,4 +37,6 @@ class Ticket:
         values = (self.film_id, self.screening_id, self.customer_id, self.id)
         Sqlrunner.run(sql, "", values)
 
-
+    def delete_all():
+        sql = "DELETE FROM TICKETS"
+        Sqlrunner.run(sql, "")

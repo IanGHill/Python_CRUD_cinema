@@ -13,7 +13,7 @@ class Screening:
 
     def save(self):
         sql = """
-            INSERT INTO screenings (screening_id, show_time, tickets_available, tickets_sold)
+            INSERT INTO screenings (film_id, show_time, tickets_available, tickets_sold)
             VALUES (%s, %s, %s, %s)
             RETURNING id;
         """
@@ -36,5 +36,9 @@ class Screening:
         sql = "UPDATE screenings SET film_id=%s, show_time=%s, tickets_available=%s, tickets_sold=%s WHERE id=%s "
         values = (self.film_id, self.show_time, self.tickets_available, self.tickets_sold, self.id)
         Sqlrunner.run(sql, "", values)
+
+    def delete_all():
+        sql = "DELETE FROM SCREENINGS"
+        Sqlrunner.run(sql, "")
 
 

@@ -49,3 +49,6 @@ class Film:
         values = (self.title, self.price, self.id)
         Sqlrunner.run(sql, "", values)
 
+    def delete_all():
+        sql = "DELETE FROM FILMS"
+        Sqlrunner.run(sql, "")

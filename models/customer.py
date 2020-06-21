@@ -1,7 +1,9 @@
 import sys
 
 sys.path.append('../db')
+sys.path.append('../models')
 from sqlrunner import *
+from ticket import *
 
 class Customer():
     def __init__(self, name, funds):
@@ -48,4 +50,28 @@ class Customer():
         values = (self.name, self.funds, self.id)
         Sqlrunner.run(sql, "", values)
 
+    def buy_ticket(self, film, screening):
+        if self.funds >= film.price:
+            if screening.tickets_available > 0:
+                self.funds -= film.price
+                screening.tickets_available -= 1
+                screening.tickets_sold += 1
+
+                self.update()
+                screening.update()
+
+                Ticket(film.id, screening.id, self.id).save()
+
+            else:
+                print("No tickets available")
+        else:
+            print("Not enough money")
+
+    def delete_all():
+        sql = "DELETE FROM CUSTOMERS"
+        SqlRunner.run(sql)
+
+    def delete_all():
+        sql = "DELETE FROM CUSTOMERS"
+        Sqlrunner.run(sql, "")
 
