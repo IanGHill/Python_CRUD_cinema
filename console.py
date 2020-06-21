@@ -118,7 +118,14 @@ ticket1.customer_id = customer2.id
 ticket1.update
 print(ticket1.customer_id)
 
-Ticket.delete_all()
-Screening.delete_all()
-Film.delete_all()
-Customer.delete_all()
+# Ticket.delete_all()
+# Screening.delete_all()
+# Film.delete_all()
+# Customer.delete_all()
+
+customers = film1.which_customers()
+print([customer.name for customer in customers])
+print(film1.how_many_customers())
+
+print(film1.most_popular_screening_using_sql())
+

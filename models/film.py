@@ -1,7 +1,10 @@
 import sys
 
 sys.path.append('../db')
+sys.path.append('../models')
 from sqlrunner import *
+from customer import *
+from screening import *
 
 class Film:
     def __init__(self, title, price):
@@ -52,3 +55,47 @@ class Film:
     def delete_all():
         sql = "DELETE FROM FILMS"
         Sqlrunner.run(sql, "")
+
+    def which_customers(self):
+        sql = """
+            SELECT customers.* FROM tickets
+            INNER JOIN customers
+            ON
+            tickets.customer_id = customers.id
+            WHERE
+            tickets.film_id = %s
+            """
+        values = (self.id,)
+        customers = Sqlrunner.run(sql, "fetchall", values)
+        customer_array = []
+        for customer in customers:
+            fetched_customer = Customer(*customer[1:])
+            fetched_customer.id = customer[0]
+            customer_array.append(fetched_customer)
+        return customer_array
+
+    def how_many_customers(self):
+        sql = "SELECT COUNT(*) FROM tickets WHERE tickets.film_id = %s"
+        values = (self.id,)
+        return Sqlrunner.run(sql, "fetchone", values)[0]
+
+    def most_popular_screening_using_sql(self):
+        sql = """SELECT id, film_id, show_time, tickets_available, tickets_sold
+                FROM screenings
+                WHERE
+                film_id = %s
+                ORDER BY
+                tickets_sold DESC
+                """
+        values = (self.id,)
+        result = Sqlrunner.run(sql, "fetchone", values)
+
+        print(result)
+        if result is not None:
+            screening = Screening(*result[1:])
+            screening.id = result[0]
+            return screening.show_time
+        else:
+            return "No screenings for this film"
+
+
